@@ -4,12 +4,27 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
-var test = require('./routes/test');
+var api = require('./routes/api');
 
 var app = express();
+
+// Connect to MongoDB database
+var connection = 'mongodb://gb_user:Orange97@ds033036.mlab.com:33036/budlab'
+
+if (app.get('env') === 'development') {
+  console.log("Connecting to local database...");
+  connection = "mongodb://localhost:27017/budlab"
+}
+mongoose.connect(connection, function(err) {
+  if (err) {
+    console.log('Could not conneect to MongoDB database');
+  } else {
+    console.log('Connected to ' + connection);
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,8 +39,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
-app.use('/test', test);
+app.use('/api', api);
+app.use('/docs', express.static(path.join(__dirname, 'public/doc')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
