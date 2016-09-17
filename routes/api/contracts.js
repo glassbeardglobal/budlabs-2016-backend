@@ -10,7 +10,7 @@ router.use(utils.getId);
 /**
  * @api {get} /api/contracts Get Current Contracts
  * @apiName GetContracts
- * @apiGroup Contacts
+ * @apiGroup Contracts
  * @apiDescription Get current contracts for this user.
  *   This route requires an id
 */
@@ -23,7 +23,19 @@ router.get('/', function(req, res, next) {
     });
 });
 
+/**
+ * @api {post} /api/contracts Create new contract
+ * @apiName PostContracts
+ * @apiGroup Contracts
+ * @apiDescription Create a new contract for the current user
+ *   This route requires an id
+ * @apiParam {String} name
+ * @apiParam {String} [entity]
+ * @apiParam {String} [phone]
+ * @apiParam {String} [address]
+*/
 router.post('/', function(req, res, next) {
+  req.body.agronomist = req.user._id;
   Contract.create(req.body, function(err, post) {
     if (err)
       res.json({

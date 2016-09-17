@@ -4,11 +4,56 @@
     "url": "/api/contracts",
     "title": "Get Current Contracts",
     "name": "GetContracts",
-    "group": "Contacts",
+    "group": "Contracts",
     "description": "<p>Get current contracts for this user. This route requires an id</p>",
     "version": "0.0.0",
     "filename": "./routes/api/contracts.js",
-    "groupTitle": "Contacts"
+    "groupTitle": "Contracts"
+  },
+  {
+    "type": "post",
+    "url": "/api/contracts",
+    "title": "Create new contract",
+    "name": "PostContracts",
+    "group": "Contracts",
+    "description": "<p>Create a new contract for the current user This route requires an id</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "entity",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "phone",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "address",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./routes/api/contracts.js",
+    "groupTitle": "Contracts"
   },
   {
     "type": "get",
