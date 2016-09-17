@@ -6,8 +6,10 @@ var utils = {
         "success": false,
         "message": "User id was not provided and is required for this route"
       });
-    req.id = id;
-    next();
+    User.findById(id, function(err, post) {
+      req.user = post;
+      next();
+    });
   }
 }
 

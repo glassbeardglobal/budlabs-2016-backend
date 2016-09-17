@@ -2,16 +2,16 @@ var express = require('express');
 var router = express.Router();
 var utils = require('../../helpers/utils');
 
-var Agronomist = require('../../models/Agronomist');
+var User = require('../../models/User');
 
 /**
- * @api {get} /api/agronomist Get Agronomist List
- * @apiName GetAgronomists
- * @apiGroup Agronomist
- * @apiDescription Get the list of all agronomists
+ * @api {get} /api/users Get User List
+ * @apiName GetUsers
+ * @apiGroup Users
+ * @apiDescription Get the list of all users
 */
 router.get('/', function(req, res, next) {
-  Agronomist.find(function(err, users) {
+  User.find(function(err, users) {
     if (err)
       next(err);
     else
@@ -20,16 +20,16 @@ router.get('/', function(req, res, next) {
 });
 
 /**
- * @api {post} /api/agronomist Create Agronomist
- * @apiName PostAgronomists
- * @apiGroup Agronomist
- * @apiDescription Create an Agronomist
+ * @api {post} /api/users Create User
+ * @apiName CreateUser
+ * @apiGroup Users
+ * @apiDescription Create a User
  * @apiParam {String} email
  * @apiParam {String} [name]
  * @apiParam {String} [password]
 */
 router.post('/', function(req, res, next) {
-  Agronomist.create(req.body, function(err, post) {
+  User.create(req.body, function(err, post) {
     if (err) {
       res.json({
         "created": false,
@@ -38,28 +38,38 @@ router.post('/', function(req, res, next) {
     } else {
       res.json({
         "created": true,
-        "agronomist": post
+        "user": post
       });
     }
   });
 });
 
 /**
- * @api {get} /api/agronomist/:id Get Specific Agronomist
- * @apiName GetAgronomist
- * @apiGroup Agronomist
- * @apiDescription Get a single Agronomist by providing the id
+ * @api {get} /api/users/:id Get Specific User
+ * @apiName GetUser
+ * @apiGroup Users
+ * @apiDescription Get a single User by providing the id
  * @apiExample Example Usage:
- *   http://barleynet.herokuapp.com/api/agronomist/8eb2301ff3265
+ *   http://barleynet.herokuapp.com/api/user/8eb2301ff3265
 */
 router.get('/:id', function(req, res, next) {
-  Agronomist.findById(req.params.id, function(err, post) {
+  User.findById(req.params.id, function(err, post) {
     if (err) {
       err.status = 400;
       return next(err);
     }
     else
       res.json(post);
+  });
+});
+
+router.delete('/:id', function(req, res, next) {
+  User.remove( { _id: req.params.id }, function(err, val) {
+    if (err)
+      return next(err);
+    res.json({
+      "success": true
+    });
   });
 });
 

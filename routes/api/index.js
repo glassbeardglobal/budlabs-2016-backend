@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
-var Agronomist = require('../../models/Agronomist');
+var User = require('../../models/User');
 
 /**
  * @api {get} /api/ Get API Status
@@ -18,16 +18,17 @@ router.get('/', function(req, res, next) {
     });
   }
   else
-    Agronomist.collection.stats(function (err, stats) {
+    User.collection.stats(function (err, stats) {
       res.json({
         dbStatus: mongoose.connection.readyState,
-        agronomistStats: stats,
+        userStats: stats,
         message: 'API Root'
       });
     });
 });
 
 router.use('/test', require('./test'));
-router.use('/agronomist', require('./agronomist'));
+router.use('/users', require('./users'));
+router.use('/contracts', require('./contracts'));
 
 module.exports = router;
