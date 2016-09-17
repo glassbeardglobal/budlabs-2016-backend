@@ -1,6 +1,73 @@
 define({ "api": [
   {
     "type": "get",
+    "url": "/api/agronomist/:id",
+    "title": "Get Specific Agronomist",
+    "name": "GetAgronomist",
+    "group": "Agronomist",
+    "description": "<p>Get a single Agronomist by providing the id</p>",
+    "examples": [
+      {
+        "title": "Example Usage:",
+        "content": "http://barleynet.herokuapp.com/api/agronomist/8eb2301ff3265",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "./routes/api/agronomist.js",
+    "groupTitle": "Agronomist"
+  },
+  {
+    "type": "get",
+    "url": "/api/agronomist",
+    "title": "Get Agronomist List",
+    "name": "GetAgronomists",
+    "group": "Agronomist",
+    "description": "<p>Get the list of all agronomists</p>",
+    "version": "0.0.0",
+    "filename": "./routes/api/agronomist.js",
+    "groupTitle": "Agronomist"
+  },
+  {
+    "type": "post",
+    "url": "/api/agronomist",
+    "title": "Create Agronomist",
+    "name": "PostAgronomists",
+    "group": "Agronomist",
+    "description": "<p>Create an Agronomist</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "name",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "password",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./routes/api/agronomist.js",
+    "groupTitle": "Agronomist"
+  },
+  {
+    "type": "get",
     "url": "/api/",
     "title": "Get API Status",
     "name": "GetStatus",

@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
 
-var User = require('../../models/User.js');
+var Agronomist = require('../../models/Agronomist');
 
 /**
  * @api {get} /api/ Get API Status
@@ -17,16 +18,16 @@ router.get('/', function(req, res, next) {
     });
   }
   else
-    User.collection.stats(function (err, stats) {
+    Agronomist.collection.stats(function (err, stats) {
       res.json({
         dbStatus: mongoose.connection.readyState,
-        dbStats: stats,
+        agronomistStats: stats,
         message: 'API Root'
       });
     });
 });
 
 router.use('/test', require('./test'));
-router.use('/users', require('./users'));
+router.use('/agronomist', require('./agronomist'));
 
 module.exports = router;
