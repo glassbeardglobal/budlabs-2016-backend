@@ -5,6 +5,21 @@ var utils = require('../../helpers/utils');
 var User = require('../../models/User');
 var Contract = require('../../models/Contract');
 
+/**
+ * @api {get} /api/contracs/fields/:id Get Fields for Contract
+ * @apiName GetFields
+ * @apiGroup Contracts
+ * @apiDescription Get fields for a given contract
+*/
+router.get('/fields/:id', function(req, res, next) {
+  Contract.findById(req.params.id)
+    .populate('fields')
+    .exec(function(err, post) {
+      if (err) return next(err);
+      res.json(post.fields);
+    });
+});
+
 router.use(utils.getId);
 
 /**
@@ -53,20 +68,5 @@ router.post('/', function(req, res, next) {
     }
   });
 });
-
-/**
- * @api {get} /api/contracs/fields/:id Get Fields for Contract
- * @apiName GetFields
- * @apiGroup Contracts
- * @apiDescription Get fields for a given contract
-*/
-router.get('/fields/:id', function(req, res, next) {
-  Contract.findById(req.params.id)
-    .populate('fields')
-    .exec(function(err, post) {
-      if (err) return next(err);
-      res.json(post.fields);
-    });
-})
 
 module.exports = router;

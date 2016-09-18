@@ -2,16 +2,14 @@ import requests
 import random
 
 lat = 40.1106
-lat = 31
 lon = -88.2073
-lon = -93
 conversion = 1 / 55.2428
 radius = 75
 
 url = 'http://barleynet.herokuapp.com'
-url = 'http://localhost:3000'
+#url = 'http://localhost:3000'
 
-for i in range(23):
+for i in range(12):
   d = {
     'latitude': lat + (random.random()*2-1)*radius*conversion,
     'longitude': lon + (random.random()*2-1)*radius*conversion}

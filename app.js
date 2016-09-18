@@ -5,11 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
-var routes = require('./routes/index');
-var api = require('./routes/api');
+var socket_io = require('socket.io');
 
 var app = express();
+
+var io = socket_io();
+app.io = io;
+
+var routes = require('./routes/index');
+var api = require('./routes/api')(io);
 
 // Connect to MongoDB database
 var connection = 'mongodb://gb_user:Orange97@ds033036.mlab.com:33036/budlab'

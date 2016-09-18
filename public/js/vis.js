@@ -34,6 +34,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/jc3m/cit82y1oa002p2xo4fb55psq2/til
 var marker = L.marker([41.8781, -87.6298], {icon: greenBarley }).addTo(mymap);
 var totalHarvest = 0, avgYield = 0, totalYield = 0; avgHarvest = 0, maxHarvest = 0, ths = 0, tys = 0;
 var numGreen = 0, numRed = 0, numYellow = 0;
+var gflagged = [];
+var gnon = [];
 
 function sfn(data) {
   var flagged = [];
@@ -57,6 +59,8 @@ function sfn(data) {
     else
       non.push(d);
   });
+  gflagged = flagged;
+  gnon = non;
   flagged.forEach(function(d) {
     L.marker([d.location.latitude, d.location.longitude], { icon: redBarley }).addTo(mymap);
     numRed += 1;
@@ -98,6 +102,7 @@ function sfn(data) {
 
   genSafetyBars();
   genYieldPie();
+  genMulti();
 }
 
 function prox(l1, l2) {
@@ -229,3 +234,38 @@ function genYieldPie() {
     .attr("dy", ".35em")
     .text(function(d) { return d.data.name });
 }
+
+function genMulti() {
+  var margins = { top: 20, bottom: 20, left: 90, right: 55 };
+  var width = $(".col-md-12").width() - margins.left - margins.right;
+  var height = 300 - margins.top - margins.bottom;
+  var svg = d3.select('#mline')
+    .attr('width', width + margins.left + margins.right)
+    .attr('height', height + margins.top + margins.bottom)
+    .append('g')
+    .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
+}
+
+var socket = io();
+socket.on('log entered', function(obj) {
+  console.log(obj);
+  if (obj.red_flags) {
+    gflagged.push(obj);
+    L.marker([obj.location.latitude, obj.location.longitude], { icon: redBarley }).addTo(mymap);
+    gnon.forEach(function(d) {
+      if (prox(d, obj) < 0.65)
+        L.marker([d.location.latitude, d.location.longitude], { icon: yellowBarley }).addTo(mymap);
+    });
+  }
+  else {
+    var f = false;
+    gflagged.forEach(function(d) {
+      if (prox(d, obj) < 0.65)
+        f = true;
+    });
+    if (f)
+      L.marker([obj.location.latitude, obj.location.longitude], { icon: yellowBarley }).addTo(mymap);
+    else
+      L.marker([obj.location.latitude, obj.location.longitude], { icon: greenBarley }).addTo(mymap).bindPopup("Green Barley");
+  }
+});
