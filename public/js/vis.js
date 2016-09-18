@@ -31,7 +31,6 @@ L.tileLayer('https://api.mapbox.com/styles/v1/jc3m/cit82y1oa002p2xo4fb55psq2/til
     accessToken: 'pk.eyJ1IjoiamMzbSIsImEiOiJjaXQ4Mng3MXgwYTJiMnVwMjh3d3ZjZmdoIn0.Fys8YwWi1BayncMt15ZzsQ'
 }).addTo(mymap);
 
-var marker = L.marker([41.8781, -87.6298], {icon: greenBarley }).addTo(mymap);
 var totalHarvest = 0, avgYield = 0, totalYield = 0; avgHarvest = 0, maxHarvest = 0, ths = 0, tys = 0;
 var numGreen = 0, numRed = 0, numYellow = 0;
 var gflagged = [];
