@@ -25,7 +25,7 @@ router.post('/', function(req, res, next) {
       Log.create(req.body, function(err, post) {
         if (err)
           return next(err);
-        Field.findByIdAndUpdate(req.body.field, { $push: post._id }, function(err, t) {
+        Field.findByIdAndUpdate(req.body.field, { $push: { logs: post._id } }, function(err, t) {
           if (err)
             return next(err);
           res.json({
