@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var Location = require('../../models/Location');
+
 /**
  * @api {post} /api/location Create location
  * @apiName PostLocation

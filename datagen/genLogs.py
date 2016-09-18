@@ -12,4 +12,4 @@ for i in range(1):
     'longitude': lon + (random.random()*2-1)*radius*conversion}
   r = requests.post('http://barleynet.herokuapp.com/api/location', data=d)
   print(r)
-  print(r.text)
+  print(r.json())
