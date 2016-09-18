@@ -37,6 +37,18 @@ var numGreen = 0, numRed = 0, numYellow = 0;
 var gflagged = [];
 var gnon = [];
 
+function incVal(val, prev, count, selector) {
+  var counter = 0;
+  var maxCount = 15;
+  var time = 800;
+
+  $(selector).html(String(~~(count/maxCount*(val-prev) + prev)) + " Bushels");
+  if (count < maxCount)
+    setTimeout(function() {
+      incVal(val, prev, count + 1, selector);
+    }, time/maxCount);
+}
+
 function sfn(data) {
   var flagged = [];
   var non = [];
@@ -84,25 +96,14 @@ function sfn(data) {
   avgYield = (~~(avgYield * 10000)) / 100
   $('#avg-yield').html(String(avgYield) + '%');
 
-  var counter = 0;
-  var maxCount = 15;
-  var time = 800;
-
-  incVal(totalHarvest, 0, '#tot-harvest');
-  incVal(maxHarvest, 0, '#max-harvest');
-  incVal(avgHarvest, 0, '#avg-harvest');
-
-  function incVal(val, count, selector) {
-    $(selector).html(String(~~(count/maxCount*val)) + " Bushels");
-    if (count <= maxCount)
-      setTimeout(function() {
-        incVal(val, count + 1, selector);
-      }, time/maxCount);
-  }
+  incVal(totalHarvest, 0, 0, '#tot-harvest');
+  incVal(maxHarvest, 0, 0, '#max-harvest');
+  incVal(avgHarvest, 0, 0, '#avg-harvest');
 
   genSafetyBars();
   genYieldPie();
   genMulti();
+  genMulti2();
 }
 
 function prox(l1, l2) {
@@ -238,12 +239,180 @@ function genYieldPie() {
 function genMulti() {
   var margins = { top: 20, bottom: 20, left: 90, right: 55 };
   var width = $(".col-md-12").width() - margins.left - margins.right;
-  var height = 300 - margins.top - margins.bottom;
-  var svg = d3.select('#mline')
+  var height = 420 - margins.top - margins.bottom;
+  var g = d3.select('#mline-alt')
     .attr('width', width + margins.left + margins.right)
     .attr('height', height + margins.top + margins.bottom)
     .append('g')
     .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
+  var x = d3.scaleLinear().range([0, width]);
+  var y = d3.scaleLinear().range([height, 0]);
+
+  var line = d3.line()
+    .curve(d3.curveBasis)
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.value); });
+
+  var data = [{
+    "id": "NE",
+    "values": []
+  },{
+    "id": "NW",
+    "values": []
+  },{
+    "id": "SE",
+    "values": []
+  }];
+  data[0].values.push({
+    "date": 0,
+    "value": 0,
+  });
+  data[1].values.push({
+    "date": 0,
+    "value": 0,
+  });
+  data[2].values.push({
+    "date": 0,
+    "value": 0,
+  });
+
+  for (var i = 1; i < 20; i++) {
+    data[0].values.push({
+      "date": i,
+      "value": ~~(Math.random() * 150) + data[0].values[i-1].value,
+    });
+    data[1].values.push({
+      "date": i,
+      "value": ~~(Math.random() * 140) + 10 + data[1].values[i-1].value,
+    });
+    data[2].values.push({
+      "date": i,
+      "value": ~~(Math.random() * 130) + 15 + data[2].values[i-1].value,
+    });
+  }
+
+  x.domain(d3.extent(data[0].values, function(d) { return d.date; }));
+
+  y.domain([
+    d3.min(data, function(c) { return d3.min(c.values, function(d) { return d.value; }); }),
+    d3.max(data, function(c) { return d3.max(c.values, function(d) { return d.value; }); })
+  ]);
+
+  g.append("g")
+    .attr("class", "axis axis--xm")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("fill", "#000")
+      .text("Harvest, Bushels");
+
+  var city = g.selectAll(".city2")
+    .data(data)
+    .enter().append("g")
+      .attr("class", "city2");
+
+  city.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d.values); })
+      .style("stroke", function(d) { return "#fff"; });
+
+  city.append("text")
+      .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.value) + ")"; })
+      .attr("x", 3)
+      .attr("dy", "0.35em")
+      .style("font", "10px sans-serif")
+      .text(function(d) { return d.id; });
+}
+
+function genMulti2() {
+  var margins = { top: 20, bottom: 20, left: 90, right: 55 };
+  var width = $(".col-md-12").width() - margins.left - margins.right;
+  var height = 300 - margins.top - margins.bottom;
+  var g = d3.select('#mline')
+    .attr('width', width + margins.left + margins.right)
+    .attr('height', height + margins.top + margins.bottom)
+    .append('g')
+    .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
+  var x = d3.scaleLinear().range([0, width]);
+  var y = d3.scaleLinear().range([height, 0]);
+
+  var line = d3.line()
+    .curve(d3.curveBasis)
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.value); });
+
+  var data = [{
+    "id": "NE",
+    "values": []
+  },{
+    "id": "NW",
+    "values": []
+  },{
+    "id": "SE",
+    "values": []
+  }];
+  for (var i = 0; i < 20; i++) {
+    data[0].values.push({
+      "date": i,
+      "value": ~~(Math.random() * 75) + 75,
+    });
+    data[1].values.push({
+      "date": i,
+      "value": ~~(Math.random() * 30) + 110,
+    });
+    data[2].values.push({
+      "date": i,
+      "value": ~~(Math.random() * 60) + 85,
+    });
+  }
+
+  x.domain(d3.extent(data[0].values, function(d) { return d.date; }));
+
+  y.domain([
+    d3.min(data, function(c) { return d3.min(c.values, function(d) { return d.value; }); }),
+    d3.max(data, function(c) { return d3.max(c.values, function(d) { return d.value; }); })
+  ]);
+
+  g.append("g")
+    .attr("class", "axis axis--xm")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("fill", "#000")
+      .text("Harvest, Bushels");
+
+  var city = g.selectAll(".city")
+    .data(data)
+    .enter().append("g")
+      .attr("class", "city");
+
+  city.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d.values); })
+      .style("stroke", function(d) { return "#fff"; });
+
+  city.append("text")
+      .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.value) + ")"; })
+      .attr("x", 3)
+      .attr("dy", "0.35em")
+      .style("font", "10px sans-serif")
+      .text(function(d) { return d.id; });
 }
 
 var socket = io();
@@ -267,5 +436,14 @@ socket.on('log entered', function(obj) {
       L.marker([obj.location.latitude, obj.location.longitude], { icon: yellowBarley }).addTo(mymap);
     else
       L.marker([obj.location.latitude, obj.location.longitude], { icon: greenBarley }).addTo(mymap).bindPopup("Green Barley");
+  }
+
+  if (obj.yield > 0) {
+    incVal(~~(totalHarvest + obj.yield), totalHarvest, 0, "#tot-harvest");
+    totalHarvest += obj.yield;
+  }
+  if (obj.yield > maxHarvest) {
+    incVal(obj.yield, maxHarvest, 0, "#max-harvest");
+    maxHarvest = obj.yield;
   }
 });
