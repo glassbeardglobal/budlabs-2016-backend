@@ -136,14 +136,32 @@ html, body {
 	box-shadow: 0px 0px 7px #777;
 }
 
+.info-box .left {
+	float: left;
+}
+
+.info-box .right {
+	margin-right: 40px;
+	font-size: 40px;
+	color: white;
+	float: right;
+}
+
 .info-box h3 {
 	font-family: Source Sans Pro;
-	font-weight: 400;
+	font-weight: 200;
 	color: white;
 	margin-top: 3px;
 	margin-bottom: 3px;
 	margin-left: 30px;
 	text-shadow: 0px 0px 8px #222;
+}
+
+svg {
+	margin: 30px 0px;
+	background-color: rgba(255, 255, 255, 0.25);
+	border-radius: 10px;
+	box-shadow: 0px 0px 7px #777;
 }
 
 /*
@@ -154,3 +172,34 @@ html, body {
 #mapid {
 	height: 420px;
 }
+
+
+/*
+  ==========================
+  D3 display
+  ==========================
+*/
+
+.bar {
+  fill: #125198;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis--x path {
+	fill: white;
+  display: none;
+}
+
+.arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+  fill: white;
+}
+
+.arc path {
+  stroke: #fff;
+}
+

@@ -26,7 +26,6 @@ var facility = L.icon({
 });
 
 L.tileLayer('https://api.mapbox.com/styles/v1/jc3m/cit82y1oa002p2xo4fb55psq2/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamMzbSIsImEiOiJjaXQ4Mng3MXgwYTJiMnVwMjh3d3ZjZmdoIn0.Fys8YwWi1BayncMt15ZzsQ', {
-    //attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18,
     id: 'jc3m',
     accessToken: 'pk.eyJ1IjoiamMzbSIsImEiOiJjaXQ4Mng3MXgwYTJiMnVwMjh3d3ZjZmdoIn0.Fys8YwWi1BayncMt15ZzsQ'
@@ -34,7 +33,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/jc3m/cit82y1oa002p2xo4fb55psq2/til
 
 var marker = L.marker([41.8781, -87.6298], {icon: greenBarley }).addTo(mymap);
 var totalHarvest = 0, avgYield = 0, totalYield = 0; avgHarvest = 0, maxHarvest = 0, ths = 0, tys = 0;
-var numGreen, numRed, numYellow;
+var numGreen = 0, numRed = 0, numYellow = 0;
 
 function sfn(data) {
   var flagged = [];
@@ -77,6 +76,28 @@ function sfn(data) {
       numGreen += 1
     }
   });
+
+  avgYield = (~~(avgYield * 10000)) / 100
+  $('#avg-yield').html(String(avgYield) + '%');
+
+  var counter = 0;
+  var maxCount = 15;
+  var time = 800;
+
+  incVal(totalHarvest, 0, '#tot-harvest');
+  incVal(maxHarvest, 0, '#max-harvest');
+  incVal(avgHarvest, 0, '#avg-harvest');
+
+  function incVal(val, count, selector) {
+    $(selector).html(String(~~(count/maxCount*val)) + " Bushels");
+    if (count <= maxCount)
+      setTimeout(function() {
+        incVal(val, count + 1, selector);
+      }, time/maxCount);
+  }
+
+  genSafetyBars();
+  genYieldPie();
 }
 
 function prox(l1, l2) {
@@ -110,21 +131,101 @@ $.ajax({
   error: errorf
 });
 
-/*$.ajax({
-  url: 'http://localhost:3000/api/insights/logs',
-  dataType: 'jsonp',
-  jsonp: true,
-  success: function(data) {
-    console.log("Success");
-    console.log(data);
-  },
-  error: function(err, opt, e) {
-    console.log("Error");
-    console.log(err);
-    console.log(e);
-  }
-});*/
+/*
+  ==============================
+  D3 SECTION
+  ==============================
+*/
 
-/*$.ajax('http://localhost:3000/api/insights/logs').done(function(data) {
-  console.log(data);
-});*/
+function genSafetyBars() {
+  var margins = { top: 20, bottom: 20, left: 90, right: 55 };
+  var width = $(".col-md-6").width() - margins.left - margins.right;
+  var height = 300 - margins.top - margins.bottom;
+
+  var x = d3.scaleBand().rangeRound([0, width]).padding(0.43);
+  var y = d3.scaleLinear().rangeRound([height, 0]);
+
+  var barsvg = d3.select('#affect-bars')
+    .attr('width', width + margins.left + margins.right)
+    .attr('height', height + margins.top + margins.bottom)
+    .append('g')
+    .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
+
+  var bar_data = [
+    { name: "Safe", value: numGreen },
+    { name: "Warning", value: numYellow },
+    { name: "Danger", value: numRed }];
+
+  x.domain(bar_data.map(function(d) { return d.name; }));
+  y.domain([0, d3.max(bar_data, function(d) { return d.value; })]);
+
+  barsvg.append("g")
+    .attr("class", "axis axis--x")
+    .attr('transform', "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  barsvg.append("g")
+    .attr("class", "axis axis--y")
+    .call(d3.axisLeft(y))
+  .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", "0.71em")
+    .attr("text-anchor", "end")
+    .text("Number of Fields");
+
+  barsvg.selectAll(".bar")
+  .data(bar_data)
+  .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d) { return x(d.name); })
+    .attr("y", function(d) { return y(d.value); })
+    .attr("width", x.bandwidth())
+    .attr("height", function(d) { return height - y(d.value); });
+}
+
+function genYieldPie() {
+  console.log(avgYield)
+  var data = [{
+    "name": "Yield",
+    "value": avgYield
+  },{
+    "name": "No Yield",
+    "value": 100 - avgYield
+  }];
+  var margins = { top: 20, bottom: 20, left: 90, right: 55 };
+  var width = $(".col-md-6").width() - margins.left - margins.right;
+  var height = 300 - margins.top - margins.bottom;
+
+  var svg = d3.select('#pie')
+    .attr('width', width + margins.left + margins.right)
+    .attr('height', height + margins.top + margins.bottom)
+    .append('g')
+    .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')')
+    .append('g')
+      .attr('transform', 'translate(' + width / 2 + "," + height / 2 + ")");
+
+  var radius = Math.min(width, height) / 2;
+  var color = d3.scaleOrdinal().range(["#003366", "#0077ff"]);
+  var arc = d3.arc()
+    .outerRadius(radius - 10)
+    .innerRadius(radius - 70);
+
+  var pie = d3.pie()
+    .sort(null)
+    .value(function(d) { return d.value })
+
+  var g = svg.selectAll(".arc")
+    .data(pie(data))
+    .enter().append("g")
+    .attr("class", "arc");
+
+  g.append("path")
+    .attr("d", arc)
+    .style("fill", function(d) { return color(d.data.name) });
+
+  g.append("text")
+    .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+    .attr("dy", ".35em")
+    .text(function(d) { return d.data.name });
+}
