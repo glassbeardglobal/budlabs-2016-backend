@@ -11,6 +11,17 @@
     "groupTitle": "Contracts"
   },
   {
+    "type": "get",
+    "url": "/api/contracs/fields/:id",
+    "title": "Get Fields for Contract",
+    "name": "GetFields",
+    "group": "Contracts",
+    "description": "<p>Get fields for a given contract</p>",
+    "version": "0.0.0",
+    "filename": "./routes/api/contracts.js",
+    "groupTitle": "Contracts"
+  },
+  {
     "type": "post",
     "url": "/api/contracts",
     "title": "Create new contract",
@@ -54,6 +65,80 @@
     "version": "0.0.0",
     "filename": "./routes/api/contracts.js",
     "groupTitle": "Contracts"
+  },
+  {
+    "type": "get",
+    "url": "/api/fields/:id",
+    "title": "Get Field",
+    "name": "GetField",
+    "group": "Fields",
+    "description": "<p>Get field by id</p>",
+    "version": "0.0.0",
+    "filename": "./routes/api/fields.js",
+    "groupTitle": "Fields"
+  },
+  {
+    "type": "get",
+    "url": "/api/fields/logs/:id",
+    "title": "Get Field Logs",
+    "name": "GetFieldLogs",
+    "group": "Fields",
+    "description": "<p>Get field by id and return logs associated</p>",
+    "version": "0.0.0",
+    "filename": "./routes/api/fields.js",
+    "groupTitle": "Fields"
+  },
+  {
+    "type": "post",
+    "url": "/api/fields",
+    "title": "Create a new field",
+    "name": "PostField",
+    "group": "Fields",
+    "description": "<p>Create a new field by providing the contract</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "contract",
+            "description": "<p>Contract id for field to be placed in</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "entity",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "phone",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "address",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./routes/api/fields.js",
+    "groupTitle": "Fields"
   },
   {
     "type": "get",

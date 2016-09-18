@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var LogSchema = new mongoose.Schema({
-  photos: [{ type: ObjectId, ref: 'Photo' }],
+  /*photos: [{ type: ObjectId, ref: 'Photo' }],*/
   description: { type: String },
   location: { type: ObjectId, ref: 'Location' }
 },{

@@ -30,5 +30,7 @@ router.get('/', function(req, res, next) {
 router.use('/test', require('./test'));
 router.use('/users', require('./users'));
 router.use('/contracts', require('./contracts'));
+router.use('/fields', require('./fields'));
+router.use('/logs', require('./logs'));
 
 module.exports = router;
