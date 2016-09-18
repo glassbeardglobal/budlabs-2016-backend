@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 var User = require('../../models/User');
+var Location = require('../../models/Location');
 
 /**
  * @api {get} /api/ Get API Status

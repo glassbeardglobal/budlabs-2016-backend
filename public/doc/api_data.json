@@ -152,6 +152,75 @@
     "groupTitle": "Index"
   },
   {
+    "type": "post",
+    "url": "/api/location",
+    "title": "Create location",
+    "name": "PostLocation",
+    "group": "Locations",
+    "description": "<p>Create a location</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "latitude",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "longitude",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": true,
+            "field": "name",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./routes/api/location.js",
+    "groupTitle": "Locations"
+  },
+  {
+    "type": "post",
+    "url": "/api/logs",
+    "title": "Create a new log",
+    "name": "PostLog",
+    "group": "Logs",
+    "description": "<p>Create a new log by providing the field</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "field",
+            "description": "<p>Field id for log to be placed in</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "description",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./routes/api/logs.js",
+    "groupTitle": "Logs"
+  },
+  {
     "type": "get",
     "url": "/api/test",
     "title": "Get test route",

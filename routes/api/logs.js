@@ -4,6 +4,14 @@ var router = express.Router();
 var Log = require('../../models/Log');
 var Field = require('../../models/Field');
 
+/**
+ * @api {post} /api/logs Create a new log
+ * @apiName PostLog
+ * @apiGroup Logs
+ * @apiDescription Create a new log by providing the field
+ * @apiParam {String} field Field id for log to be placed in
+ * @apiParam {String} description
+*/
 router.post('/', function(req, res, next) {
   if (req.body.field === undefined)
     res.json({
@@ -30,6 +38,12 @@ router.post('/', function(req, res, next) {
   }
 });
 
+/**
+ * @api {get} /api/logs/:id Get a log
+ * @apiName GetLog
+ * @apiGroup Logs
+ * @apiDescription Retrieve a log
+*/
 router.get('/:id', function(req, res, next) {
   Log.findById(req.params.id, function(err, post) {
     if (err)
