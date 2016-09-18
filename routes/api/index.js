@@ -35,5 +35,6 @@ router.use('/fields', require('./fields'));
 router.use('/logs', require('./logs'));
 router.use('/insights', require('./insights'));
 router.use('/location', require('./location'));
+router.use('/facility', require('./facility'));
 
 module.exports = router;

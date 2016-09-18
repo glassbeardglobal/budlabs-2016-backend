@@ -1,0 +1,156 @@
+html, body {
+	height: 100%;
+}
+
+@font-face {
+    font-family: Bebas Neue;
+    src: url("../fonts/BebasNeue/BebasNeue.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Source Sans Pro;
+    font-weight: 100;
+    src: url("../fonts/source-sans-pro/SourceSansPro-ExtraLight.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Source Sans Pro;
+    font-weight: 200;
+    src: url("../fonts/source-sans-pro/SourceSansPro-Light.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Source Sans Pro;
+    font-weight: 400;
+    src: url("../fonts/source-sans-pro/SourceSansPro-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Source Sans Pro;
+    font-weight: 600;
+    src: url("../fonts/source-sans-pro/SourceSansPro-Semibold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Source Sans Pro;
+    font-weight: 700;
+    src: url("../fonts/source-sans-pro/SourceSansPro-Bold.otf") format("opentype");
+}
+
+.navbar {
+	z-index: 100;
+	border-radius: 0;
+	margin-bottom: 0px;
+	box-shadow: 5px 0px 9px #000;
+	position: fixed;
+	height: 50px;
+	width: 100%;
+}
+
+.navbar-default {
+	color: white;
+	background-color: #02020a;
+	border: none;
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav > li > a {
+	color: white;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus,
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a:hover {
+	color: #eee;
+}
+
+.email {
+	color: #00abff;
+}
+
+
+/*
+  ==========================
+  sidebar
+  ==========================
+*/
+
+.sidebar {
+	top: 50px;
+	z-index: 50;
+	position: fixed;
+	//height: calc(100%-50px);
+	height: 100%;
+	width: 50px;
+	background-color: #323237;
+}
+
+.ico-fa {
+	font-size: 15px;
+	display: block;
+	margin: auto;
+	margin-left: 15px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	color: white;
+}
+
+.ico-fa a {
+	color: white;
+}
+
+.ico-fa a:hover {
+	color: #ddd;
+}
+
+/*
+  ==========================
+  main display
+  ==========================
+*/
+
+.main {
+	z-index: 0;
+	position: absolute;
+	
+	width: 100%;
+	background: #00abff; /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(left top, #00becd, #00abff); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(bottom right, #00becd, #00abff); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(bottom right, #00becd, #00abff);
+	background: linear-gradient(to bottom right, #33ae9d, #2291e5);
+}
+
+.main-container {
+	margin-top: 75px;
+	margin-left: 75px;
+	margin-right: 25px;
+}
+
+.info-box {
+	margin-top: 25px;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 0.25);
+	box-shadow: 0px 0px 7px #777;
+}
+
+.info-box h3 {
+	font-family: Source Sans Pro;
+	font-weight: 400;
+	color: white;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	margin-left: 30px;
+	text-shadow: 0px 0px 8px #222;
+}
+
+/*
+  ==========================
+  Map display
+  ==========================
+*/
+#mapid {
+	height: 420px;
+}

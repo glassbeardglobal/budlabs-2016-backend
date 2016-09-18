@@ -1,0 +1,108 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>BarleyNet</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="/css/normalize.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/vis.css">
+        <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">BarleyNet</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Logged in as <span class="email">rbhang@gmail.com</span></a></li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+        
+        <div class="sidebar">
+            <div class="ico-fa">
+                <a href="#"><i class="fa fa-home" aria-hidden="true"></i></a>
+            </div>
+            <div class="ico-fa">
+                <a href="#"><i class="fa fa-asterisk" aria-hidden="true"></i></a>
+            </div>
+            <div class="ico-fa">
+                <a href="#"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+            </div>
+            <div class="ico-fa">
+                <a href="#"><i class="fa fa-pie-chart" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="main">
+        <div class="main-container">
+            <div id="mapid"></div>
+            <div class="col-md-6">
+                <div class="info-box">
+                    <h3>Total Harvest</h3>
+                    <h3 id="tot-harvest">0</h3>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="info-box">
+                    <h3>Average Yield Rate</h3>
+                    <h3 id="avg-yield">0</h3>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="info-box">
+                    <h3>Average Harvest</h3>
+                    <h3 id="avg-harvest">0</h3>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="info-box">
+                    <h3>Maximum Harvest</h3>
+                    <h3 id="max-harvest">0</h3>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <svg id="affect-bars">
+                </svg>
+            </div>
+        </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+        <script src="/js/plugins.js"></script>
+        <script src="/js/main.js"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+        <script src="/js/vis.js"></script>
+    </body>
+</html>
